@@ -20,7 +20,7 @@ class Image {
   $(document).ready(() => {
     const images = [];
     $.get('./data/page-1.json', (data) => {
-      data = JSON.parse(data);
+      //data = JSON.parse(data);
       for (const imageJson of data) {
         images.push(new Image(imageJson));
       }
