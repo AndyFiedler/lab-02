@@ -3,12 +3,60 @@ body {
 	color: white;
 	width: 100%;
 }
+header {
+	margin: 100px auto;
+}
 
 h1 {
 	text-align: center;
 	font-size: 3em;
-	font-family: 'Times New Roman', Times, serif;
+	font-family: 'Shadows Into Light', cursive;
 }
 main {
+	width: 90vw;
+	margin: auto;
+	overflow: auto;
+	padding: 20px;
+	margin-top: 100px;
 	background-color: rgb(245, 143, 245)
+}
+h2 {
+	text-decoration: underline;
+	font-weight: bold;
+	margin-bottom: 10px;
+	max-width: 250px;
+	font-size: 2em;
+	font-family: 'Shadows Into Light', cursive;
+	margin: 10px auto;
+}
+p {
+	font-size: 1em;
+	font-family: 'Shadows Into Light', cursive;
+}
+section {
+	max-width: 350px;
+	margin: 3px auto;
+}
+
+img {
+	height: 350px;
+	width: 350px;
+	box-shadow: 0.5em 0.5em 0.5em rgb(24, 143, 245);
+}
+
+img p{
+  box-sizing: inherit;
+  display: block;
+  border-radius: 25px;
+  border: solid 5px red;
+  background: blue;
+  padding: 5px 15px 0;
+  max-width: 350px;
+  margin: 0 auto;
+  color: white;
+  font-weight: bold;
+  font-size: 1em;
+  font-family: 'Shadows Into Light', cursive;
+  text-align: center;
+  display: none;
 }
