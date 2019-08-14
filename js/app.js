@@ -27,5 +27,23 @@ class Image {
       for (const image of images) {
         $('main').append(image.getElement());
       }
+	  Image.all = images;
+	  populateFilter();
     });
   });
+
+const populateFilter = () => {
+  let filterKeywords = [];
+  $('#keywords').empty();
+  $('#keywords').append($('<option value="default">Filter by Keyword</option>'));
+  Image.all.forEach(image => {
+    if (!filterKeywords.includes(image.keyword)) filterKeywords.push(image.keyword);
+  });
+  console.log(filterKeywords);
+  filterKeywords.sort();
+  filterKeywords.forEach(keyword => {
+    let optionTag = $(`<option value="${keyword}">${keyword}</option>`);
+    optionTag.appendTo($('#keywords'));
+  });
+  console.log($('#keywords'));
+};
