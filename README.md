@@ -46,15 +46,15 @@ You have the option of using the provided `index.html` file, but it is not a req
 For each of the features listed below, make an estimate of the time it will take you to complete the feature, and record your start and finish times for that feature:
 
 ```
-Number and name of feature: ________________________________
+Number and name of feature: Andy and Steven
 
-Estimate of time needed to complete: _____
+Estimate of time needed to complete: 5 hours
 
-Start time: _____
+Start time: 9 am
 
-Finish time: _____
+Finish time: 2 pm
 
-Actual time needed to complete: _____
+Actual time needed to complete: 5 hours
 ```
 
 Add this information to your README.
