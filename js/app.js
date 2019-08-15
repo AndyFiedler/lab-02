@@ -1,85 +1,93 @@
 'use strict';
-
-const image = [];
-let keywords = [];
-
-function Image(url, title, description, keyword, horns) {
-  this.url = url;
-  this.title = title;
-  this.description = description;
-  this.keyword = keyword;
-  this.horns = horns;
+function Image(item) {
+  this.image_url = item.image_url;
+  this.title = item.title;
+  this.description = item.description;
+  this.keyword = item.keyword;
+  this.horns = item.horns;
 }
-
-
-
-//horned animals page 1 
-$.get('../data/page-1.json', (animals) => {
-    let source = $("#animal-template").html()
-    let template = Handlebars.compile(source);
-
-    animals.forEach(animal => {
-        let html = template(animal);
-        $('main').append(html);
+Image.prototype.render = function() {
+  let template = Handlebars.compile($('#photo-template').html());
+  return template(this);
+};
+Image.readJson = (page) => {
+  Image.all = [];
+  $('main').empty();
+  $.get(`data/page-${page}.json`).then(data => {
+    data.forEach(item => {
+      Image.all.push(new Image(item));
     });
-})
-//horned animals page 2
-$.get('../data/page-2.json', (animals) => {
-    let source = $("#animal-template").html()
-    let template = Handlebars.compile(source);
-
-    animals.forEach(animal => {
-        let html = template(animal);
-        $('main').append(html);
+    Image.sortBy(Image.all, 'title');
+    Image.all.forEach( image => {
+      $('#image-container').append(image.render());
     });
-})
-
-
-
-
-/*
-$.get('data/page-1.json', function(data) {
-  let $data = data;
-  $data.forEach(function(element){
-    image.push(new Image(element.image_url, element.title, element.description, element.keyword, element.horns));
-    keywords.push(element.keyword);
+    Image.populateFilter();
   });
-  image.forEach(function(element){
-    renderImage(element.url, element.title, element.description, element.horns, element.keyword);
+};
+Image.sortBy = (array, property) => {
+  array.sort((a, b) => {
+    let firstComparison = a[property];
+    let secondComparison = b[property];
+    return (firstComparison > secondComparison) ? 1 : (firstComparison < secondComparison) ? -1 : 0;
   });
-  keywords = new Set(keywords);
-  console.log(keywords);
-  keywords.forEach(function(element){
-    createList(element);
+};
+Image.populateFilter = () => {
+  let filterKeywords = [];
+  $('option').not(':first').remove();
+  Image.all.forEach(image => {
+    if (!filterKeywords.includes(image.keyword)) {
+      filterKeywords.push(image.keyword);
+    }
   });
-  $('select').change(hideElement);
+  filterKeywords.sort();
+  filterKeywords.forEach(keyword => {
+    let optionTag = `<option value="${keyword}">${keyword}</option>`;
+    $('select').append(optionTag);
+  });
+};
+Image.handleFilter = () => {
+  $('select').on('change', function() {
+    let selected = $(this).val();
+    if(selected !== 'default') {
+      $('div').hide();
+      $(`div.${selected}`).fadeIn();
+    }
+  });
+};
+Image.handleSort = () => {
+  $('input').on('change', function() {
+    $('select').val('default');
+    $('div').remove();
+    Image.sortBy(Image.all, $(this).attr('id'));
+    Image.all.forEach(image => {
+      $('#image-container').append(image.render());
+    });
+  });
+};
+Image.handleImageEvents = () => {
+  $('main').on('click', 'div', function(event) {
+    event.stopPropagation();
+    let $clone = $(this).clone();
+    let elements = $clone[0].children;
+    $('section').addClass('active').html(elements);
+    $(window).scrollTop(0);
+  });
+  $('body').on('click', function() {
+    const $section = $('section');
+    $section.empty();
+    $section.removeClass('active');
+  });
+};
+Image.handleNavEvents = () => {
+  $('footer ul, header ul').on('click', 'li', function() {
+    $('#image-container').empty();
+    Image.readJson($(this).attr('id'));
+  });
+};
+$(() => {
+  Image.readJson(1);
+  Image.handleFilter();
+  Image.handleImageEvents();
+  Image.handleNavEvents();
+  Image.handleSort();
 });
-
-console.log(image);
-*/
-/*
-function renderImage(url, title, description, horns, keyword) {
-  let $section = $('<section>').attr('data-keyword', keyword);
-  let $title = $('<h2>').text(title);
-  let $img = $('<img>').attr('src', url).attr('alt', description);
-  let $text = $('<p>').text(`Num of horns: ${horns}`);
-  $section.append($title, $img, $text);
-  $('main').append($section);
-}
-*/
-function createList(keyword) {
-  let $option = $('<option>').text(keyword).attr('value', keyword);
-  $('select').append($option);
-}
-
-function hideElement() {
-  let value = $(this).val();
-
-  if(value !== 'default'){
-    $('section').hide();
-    $(`section[data-keyword=${value}]`).fadeIn(750);
-  } else {
-    $('section').fadeIn(750);
-  }
-}
-
