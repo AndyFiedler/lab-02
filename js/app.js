@@ -11,6 +11,24 @@ function Image(url, title, description, keyword, horns) {
   this.horns = horns;
 }
 
+
+
+
+$.get('../data/page-1.json', (animals) => {
+    let source = $("#animal-template").html()
+    let template = Handlebars.compile(source);
+
+    animals.forEach(animal => {
+        let html = template(animal);
+        $('main').append(html);
+    });
+})
+
+
+
+
+
+
 $.get('data/page-1.json', function(data) {
   let $data = data;
   $data.forEach(function(element){
@@ -41,12 +59,10 @@ $(function () {
     var context={
         animals: [
            { title:  }
+           { url:  }
+           { description:  }
         ]
-      "url": "",
-      "title": "Baker Street",
-      "description": "221B",
-      "keyword": "221B",
-      "horns": "221B",
+  
     };
     console.log(context);
   
