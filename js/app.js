@@ -13,8 +13,18 @@ function Image(url, title, description, keyword, horns) {
 
 
 
-
+//horned animals page 1 
 $.get('../data/page-1.json', (animals) => {
+    let source = $("#animal-template").html()
+    let template = Handlebars.compile(source);
+
+    animals.forEach(animal => {
+        let html = template(animal);
+        $('main').append(html);
+    });
+})
+//horned animals page 2
+$.get('../data/page-2.json', (animals) => {
     let source = $("#animal-template").html()
     let template = Handlebars.compile(source);
 
@@ -27,8 +37,7 @@ $.get('../data/page-1.json', (animals) => {
 
 
 
-
-
+/*
 $.get('data/page-1.json', function(data) {
   let $data = data;
   $data.forEach(function(element){
@@ -47,8 +56,8 @@ $.get('data/page-1.json', function(data) {
 });
 
 console.log(image);
-
-
+*/
+/*
 function renderImage(url, title, description, horns, keyword) {
   let $section = $('<section>').attr('data-keyword', keyword);
   let $title = $('<h2>').text(title);
@@ -57,7 +66,7 @@ function renderImage(url, title, description, horns, keyword) {
   $section.append($title, $img, $text);
   $('main').append($section);
 }
-
+*/
 function createList(keyword) {
   let $option = $('<option>').text(keyword).attr('value', keyword);
   $('select').append($option);
