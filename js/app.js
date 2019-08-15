@@ -30,6 +30,34 @@ $.get('data/page-1.json', function(data) {
 
 console.log(image);
 
+$(function () {
+    // Grab the template script
+    var theTemplateScript = $("#photo-template").html();
+  
+    // Compile the template
+    var theTemplate = Handlebars.compile(theTemplateScript);
+  
+    // Define our data object
+    var context={
+        animals: [
+           { title:  }
+        ]
+      "url": "",
+      "title": "Baker Street",
+      "description": "221B",
+      "keyword": "221B",
+      "horns": "221B",
+    };
+    console.log(context);
+  
+    // Pass our data to the template
+    var theCompiledHtml = theTemplate(context);
+  
+    // Add the compiled html to the page
+    $('.content-placeholder').html(theCompiledHtml);
+  });
+  
+/*
 function renderImage(url, title, description, horns, keyword) {
   let $section = $('<section>').attr('data-keyword', keyword);
   let $title = $('<h2>').text(title);
@@ -38,7 +66,7 @@ function renderImage(url, title, description, horns, keyword) {
   $section.append($title, $img, $text);
   $('main').append($section);
 }
-
+*/
 function createList(keyword) {
   let $option = $('<option>').text(keyword).attr('value', keyword);
   $('select').append($option);
